@@ -1,0 +1,54 @@
+================================================================================
+methods
+================================================================================
+
+_method my_object.method
+_endmethod
+$
+
+_method my_object.method()
+_endmethod
+$
+
+_method my_object.method(a)
+_endmethod
+$
+
+_method my_object.method(a, b)
+_endmethod
+$
+
+_method my_object.method<< a
+_endmethod
+$
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (method_declaration
+    (identifier)
+    (identifier))
+  (method_declaration
+    (identifier)
+    (identifier)
+    (parameter_list))
+  (method_declaration
+    (identifier)
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier))))
+  (method_declaration
+    (identifier)
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier))
+      (parameter
+        (identifier))))
+  (method_declaration
+    (identifier)
+    (identifier)
+    (parameter_list
+      (parameter
+        (identifier)))))

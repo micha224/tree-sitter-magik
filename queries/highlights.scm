@@ -8,8 +8,19 @@
 ; Literals
 
 [
+  (number)
+] @number
+
+[
   (string_literal)
 ] @string
+
+[
+  (true)
+  (false)
+  (maybe)
+  (unset)
+] @constant.builtin
 
 ; Keywords
 

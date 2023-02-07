@@ -3,11 +3,11 @@ Block statements
 ================================================================================
 
 _block
-  _return 0
+  _return
 _endblock
 
 _block
-  >> 'string'
+  >> _unset
 _endblock
 $
 
@@ -15,8 +15,7 @@ $
 
 (source_file
   (block
-    (return_statement
-      (number)))
+    (return_statement))
   (block
     (return_statement
-      (string_literal))))
+      (unset))))
