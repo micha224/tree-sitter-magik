@@ -14,8 +14,10 @@ $
 --------------------------------------------------------------------------------
 
 (source_file
-  (block
-    (return_statement))
-  (block
-    (return_statement
-      (unset))))
+  (fragment
+    (block
+      (return_statement)))
+  (fragment
+    (block
+      (return_statement
+        (unset)))))

@@ -35,19 +35,23 @@ $
 --------------------------------------------------------------------------------
 
 (source_file
+  (fragment
   (method_declaration
     (identifier)
-    (identifier))
+    (identifier)))
+  (fragment
   (method_declaration
     (identifier)
     (identifier)
-    (parameter_list))
+    (parameter_list)))
+  (fragment
   (method_declaration
     (identifier)
     (identifier)
     (parameter_list
       (parameter
-        (identifier))))
+        (identifier)))))
+  (fragment
   (method_declaration
     (identifier)
     (identifier)
@@ -55,16 +59,18 @@ $
       (parameter
         (identifier))
       (parameter
-        (identifier))))
+        (identifier)))))
+  (fragment
   (method_declaration
     (identifier)
     (identifier)
     (parameter_list
       (parameter
-        (identifier))))
+        (identifier)))))
+  (fragment
   (method_declaration
     (identifier)
     (identifier)
     (parameter_list)
     (documentation)
-    (comment)))
+    (comment))))

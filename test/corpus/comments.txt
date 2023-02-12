@@ -3,13 +3,17 @@ comments
 ================================================================================
 
 # Single line comment
+$
 
 # Multi
 # Line
 # Comment
+$
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (comment)
-  (comment))
+  (fragment
+    (comment))
+  (fragment
+    (comment)))

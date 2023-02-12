@@ -34,7 +34,7 @@ module.exports = grammar({
 
 	block: $ =>
 	prec.left(
-	    seq("_block", repeat($._statement), "_endblock", optional("\n$\n"))
+	    seq("_block", repeat($._statement), "_endblock")
 	),
 
 	if_expression: $ =>

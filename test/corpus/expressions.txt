@@ -6,22 +6,27 @@ object.method
 object.method()
 object.method()
 object.method<< a
+$
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (call
-    (identifier)
-    (identifier))
-  (call
-    (identifier)
-    (identifier))
-  (call
-    (identifier)
-    (identifier))
-  (call
-    (identifier)
-    (identifier))
+  (fragment
+    (call
+      (identifier)
+      (identifier)))
+  (fragment
+    (call
+      (identifier)
+      (identifier)))
+  (fragment
+    (call
+      (identifier)
+      (identifier)))
+  (fragment
+    (call
+      (identifier)
+      (identifier)))
   (ERROR)
   (identifier))
 
@@ -35,6 +40,7 @@ _true _xor _false
 _true _andif _true
 _false _orif _true
 _false _xorif _true
+$
 
 --------------------------------------------------------------------------------
 
@@ -63,3 +69,70 @@ _false _xorif _true
     (logical_operator
       (false)
       (true))))
+
+================================================================================
+if_expression
+================================================================================
+
+_if _true
+_then
+  >> _false
+_endif 
+
+_if _true
+_then
+  >> _false
+_elif _false
+  >> _true
+_else
+  >> _maybe
+_endif
+
+_if _true
+_then
+  >> _false
+_else
+  >> _maybe
+_endif
+
+_if _true
+_then
+  >> false
+_elif _false
+  >> _true
+_endif
+$
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (fragment
+    (if_expression
+      (true)
+      (return_statement
+        (false))))
+  (fragment
+    (if_expression
+      (true)
+      (return_statement
+        (false))
+      (false)
+      (return_statement
+        (true))
+      (return_statement
+        (maybe))))
+  (fragment
+    (if_expression
+      (true)
+      (return_statement
+        (false))
+      (return_statement
+        (maybe))))
+  (fragment
+    (if_expression
+      (true)
+      (return_statement
+        (identifier))
+      (false)
+      (return_statement
+        (true)))))
