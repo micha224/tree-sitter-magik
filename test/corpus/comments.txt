@@ -1,21 +1,15 @@
 ================================================================================
-block statements
+comments
 ================================================================================
 
-_block
-  _return
-_endblock
+# Single line comment
 
-_block
-  >> _unset
-_endblock
-$
+# Multi
+# Line
+# Comment
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (block
-    (return_statement))
-  (block
-    (return_statement
-      (unset))))
+  (comment)
+  (comment))

@@ -22,6 +22,16 @@ _method my_object.method<< a
 _endmethod
 $
 
+_method my_object.method_with_doc()
+	## multi
+	## line
+	## documentation
+	
+	# comment
+	## comment
+_endmethod
+$
+
 --------------------------------------------------------------------------------
 
 (source_file
@@ -51,4 +61,10 @@ $
     (identifier)
     (parameter_list
       (parameter
-        (identifier)))))
+        (identifier))))
+  (method_declaration
+    (identifier)
+    (identifier)
+    (parameter_list)
+    (documentation)
+    (comment)))
