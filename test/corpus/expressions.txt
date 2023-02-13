@@ -4,8 +4,9 @@ method calls
 
 object.method
 object.method()
-object.method()
 object.method<< a
+object.method1.method2
+_self.new()
 $
 
 --------------------------------------------------------------------------------
@@ -18,17 +19,26 @@ $
   (fragment
     (call
       (identifier)
-      (identifier)))
+      (identifier)
+      (parameter_list)))
   (fragment
     (call
       (identifier)
+      (identifier)
+      (parameter_list
+        (parameter
+          (identifier)))))
+  (fragment
+    (call
+      (call
+        (identifier)
+        (identifier))
       (identifier)))
   (fragment
     (call
+      (self)
       (identifier)
-      (identifier)))
-  (ERROR)
-  (identifier))
+      (parameter_list))))
 
 ================================================================================
 logical

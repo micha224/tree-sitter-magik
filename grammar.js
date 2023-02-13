@@ -74,7 +74,7 @@ module.exports = grammar({
 	call: $ =>
 	prec.left(
 	    seq(
-		field("receiver", $.identifier),
+		field("receiver", choice($.call, $._literal, $.identifier)),
 		field("operator", "."),
 		field("message", $.identifier),
 		optional($.parameter_list)

@@ -38,7 +38,7 @@
 (call 
   operator: "." @operator)
 (call
-  method: (identifier) @function)
+  message: (identifier) @function)
 
 ; Keywords
 
