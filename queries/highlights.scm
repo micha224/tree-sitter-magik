@@ -27,6 +27,11 @@
  (super)
 ] @variable.builtin
 
+[
+ (symbol)
+ (character_literal)
+] @constant
+
 (documentation) @attribute
 (comment) @comment
 (pragma) @attribute

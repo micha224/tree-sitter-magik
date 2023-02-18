@@ -48,6 +48,20 @@ module.exports = grammar({
 	    "_endif"
 	),
 
+	loop_expression: $ =>
+	    seq(
+		"_loop",
+	    repeat($._statement),
+		"_endloop"
+	    ),
+
+	iterator_expression: $ =>
+	    seq(
+		optional(seq("_for", $.identifier)),
+		"_over", $._expression,
+		$.loop_expression
+	    ),
+
 	pragma: $ => seq("_pragma(", /.*/, ")"),
 
 	_literal: $ =>
@@ -55,12 +69,13 @@ module.exports = grammar({
 	    $.true,
 	    $.false,
 	    $.maybe,
-	    //	    $.character_literal,
+	    $.character_literal,
 	    $.string_literal,
 	    $.number,
 	    $.unset,
 	    $.super,
-	    $.self
+	    $.self,
+	    $.symbol
 	),
 
 	string_literal: $ =>
@@ -107,15 +122,17 @@ module.exports = grammar({
 	),
 
 	_expression: $ =>
-	choice(
-	    $.call,
-	    $.if_expression,
-	    $.logical_operator,
-	    $.relational_operator,
-	    $.identifier,
-	    $._literal
-	    // TODO: other kinds of expressions
-	),
+	    choice(
+		$.call,
+		$.iterator_expression,
+		$.if_expression,
+		$.loop_expression,
+		$.logical_operator,
+		$.relational_operator,
+		$._literal,
+		$.identifier
+		// TODO: other kinds of expressions
+	    ),
 
 	identifier: $ => /[a-z][a-z0-9_\?]*/,
 
@@ -138,6 +155,9 @@ module.exports = grammar({
 		field("right", $._expression)
 	    )
 	),
+
+	symbol: $ => seq(':', $.identifier),
+	character_literal: $ => seq('%', choice($.identifier, /./)),
 
 	documentation: $ => repeat1(/##.*/),
 	comment: $ => prec.right(repeat1(/#.*/)),
