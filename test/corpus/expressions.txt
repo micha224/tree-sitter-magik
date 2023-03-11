@@ -93,6 +93,7 @@ _if _true
 _then
   >> _false
 _elif _false
+_then
   >> _true
 _else
   >> _maybe
@@ -109,6 +110,7 @@ _if _true
 _then
   >> false
 _elif _false
+_then
   >> _true
 _endif
 $
@@ -154,6 +156,31 @@ slot accessor
 .slot
 $
 
----
+--------------------------------------------------------------------------------
 
+)
 
+================================================================================
+try
+================================================================================
+
+_try
+_when e
+_endtry
+$
+
+_try _with cond
+_when e
+_endtry
+$
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (fragment
+    (try_expression
+      (identifier)))
+  (fragment
+    (try_expression
+      (identifier)
+      (identifier))))

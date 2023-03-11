@@ -43,7 +43,7 @@ module.exports = grammar({
 	    field("condition", $._expression),
 	    "_then",
 	    repeat($._statement),
-	    repeat(seq("_elif", repeat($._statement))),
+	    repeat(seq("_elif", field("condition", $._expression), "_then", repeat($._statement))),
 	    optional(seq("_else", repeat($._statement))),
 	    "_endif"
 	),
@@ -61,6 +61,17 @@ module.exports = grammar({
 		"_over", $._expression,
 		$.loop_expression
 	    ),
+
+	try_expression: $ =>
+	seq(
+	    "_try",
+	    optional(seq("_with", field("condition", $.identifier))),
+	    repeat($._statement),
+	    "_when",
+	    field("raised_condition", $.identifier), repeat(seq(",", field("raised_condition", $.identifier))),
+	    repeat($._statement),
+	    "_endtry"
+	),
 
 	pragma: $ => seq("_pragma(", /.*/, ")"),
 
@@ -127,6 +138,7 @@ module.exports = grammar({
 		$.iterator_expression,
 		$.if_expression,
 		$.loop_expression,
+		$.try_expression,
 		$.logical_operator,
 		$.relational_operator,
 		$._literal,
