@@ -4,7 +4,7 @@ method calls
 
 object.method
 object.method()
-object.method<< a
+object.method<< _unset
 object.method1.method2
 _self.new()
 $
@@ -14,31 +14,27 @@ $
 (source_file
   (fragment
     (call
-      (identifier)
+      (variable)
       (identifier)))
   (fragment
     (call
-      (identifier)
-      (identifier)
-      (parameter_list)))
+      (variable)
+      (identifier)))
   (fragment
     (call
+      (variable)
       (identifier)
-      (identifier)
-      (parameter_list
-        (parameter
-          (identifier)))))
+      (unset)))
   (fragment
     (call
       (call
-        (identifier)
+        (variable)
         (identifier))
       (identifier)))
   (fragment
     (call
       (self)
-      (identifier)
-      (parameter_list))))
+      (identifier))))
 
 ================================================================================
 logical
@@ -81,106 +77,28 @@ $
       (true))))
 
 ================================================================================
-if_expression
-================================================================================
-
-_if _true
-_then
-  >> _false
-_endif 
-
-_if _true
-_then
-  >> _false
-_elif _false
-_then
-  >> _true
-_else
-  >> _maybe
-_endif
-
-_if _true
-_then
-  >> _false
-_else
-  >> _maybe
-_endif
-
-_if _true
-_then
-  >> false
-_elif _false
-_then
-  >> _true
-_endif
-$
-
---------------------------------------------------------------------------------
-
-(source_file
-  (fragment
-    (if_expression
-      (true)
-      (return_statement
-        (false))))
-  (fragment
-    (if_expression
-      (true)
-      (return_statement
-        (false))
-      (false)
-      (return_statement
-        (true))
-      (return_statement
-        (maybe))))
-  (fragment
-    (if_expression
-      (true)
-      (return_statement
-        (false))
-      (return_statement
-        (maybe))))
-  (fragment
-    (if_expression
-      (true)
-      (return_statement
-        (identifier))
-      (false)
-      (return_statement
-        (true)))))
-
-================================================================================
 slot accessor
 ================================================================================
 
 .slot
 $
 
---------------------------------------------------------------------------------
-
-)
-
-================================================================================
-try
-================================================================================
-
-_try
-_when e
-_endtry
+.slot<< _unset
 $
 
-_try _with cond
-_when e
-_endtry
+.slot.invoke()
 $
 
 --------------------------------------------------------------------------------
 
 (source_file
   (fragment
-    (try_expression
-      (identifier)))
+    (slot_accessor))
   (fragment
-    (try_expression
-      (identifier)
+    (assignment
+      (slot_accessor)
+      (unset)))
+  (fragment
+    (call
+      (slot_accessor)
       (identifier))))

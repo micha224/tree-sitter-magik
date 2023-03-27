@@ -1,8 +1,8 @@
 ; Methods
 
-(method_declaration
+(method
   exemplarname: (identifier) @type)
-(method_declaration
+(method
   name: (identifier) @function.method)
 
 ; Literals
@@ -39,7 +39,7 @@
 ; Expression
 
 (call
-  receiver: (identifier) @variable.parameter)
+  receiver: (variable) @variable.parameter)
 (call 
   operator: "." @operator)
 (call

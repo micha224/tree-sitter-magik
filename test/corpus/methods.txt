@@ -1,5 +1,5 @@
 ================================================================================
-methods
+simple methods
 ================================================================================
 
 _method my_object.method
@@ -22,6 +22,42 @@ _method my_object.method<< a
 _endmethod
 $
 
+--------------------------------------------------------------------------------
+
+(source_file
+  (fragment
+    (method
+      (identifier)
+      (identifier)))
+  (fragment
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list)))
+  (fragment
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list
+        (parameter))))
+  (fragment
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list
+        (parameter)
+        (parameter))))
+  (fragment
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list
+        (parameter)))))
+
+================================================================================
+method documentation
+================================================================================
+
 _method my_object.method_with_doc()
 	## multi
 	## line
@@ -36,41 +72,80 @@ $
 
 (source_file
   (fragment
-  (method_declaration
-    (identifier)
-    (identifier)))
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list)
+      (documentation)
+      (comment))))
+
+================================================================================
+iterator method
+================================================================================
+
+_abstract _private _iter _method object.abstract_private_iter()
+  _loopbody(_unset)
+_endmethod
+$
+
+--------------------------------------------------------------------------------
+
+(source_file
   (fragment
-  (method_declaration
-    (identifier)
-    (identifier)
-    (parameter_list)))
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list)
+      (loopbody
+        (unset)))))
+
+================================================================================
+method parameters
+================================================================================
+
+_method object.method(_gather args)
+_endmethod
+$
+
+_method object.method(first_arg _gather args)
+_endmethod
+$
+
+_method object.method(_optional arg)
+_endmethod
+$
+
+_method object.method(first_arg, _optional second_arg, third_arg)
+_endmethod
+$
+
+--------------------------------------------------------------------------------
+
+(source_file
   (fragment
-  (method_declaration
-    (identifier)
-    (identifier)
-    (parameter_list
-      (parameter
-        (identifier)))))
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list
+        (parameter))))
   (fragment
-  (method_declaration
-    (identifier)
-    (identifier)
-    (parameter_list
-      (parameter
-        (identifier))
-      (parameter
-        (identifier)))))
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list
+        (parameter)
+        (parameter))))
   (fragment
-  (method_declaration
-    (identifier)
-    (identifier)
-    (parameter_list
-      (parameter
-        (identifier)))))
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list
+        (parameter))))
   (fragment
-  (method_declaration
-    (identifier)
-    (identifier)
-    (parameter_list)
-    (documentation)
-    (comment))))
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list
+        (parameter)
+        (parameter)
+        (parameter)))))

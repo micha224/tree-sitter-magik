@@ -1,23 +1,24 @@
 ================================================================================
-block statements
+try
 ================================================================================
 
-_block
-  _return
-_endblock
+_try
+_when e
+_endtry
+$
 
-_block
-  >> _unset
-_endblock
+_try _with cond
+_when e
+_endtry
 $
 
 --------------------------------------------------------------------------------
 
 (source_file
   (fragment
-    (block
-      (return)))
+    (try
+      (identifier)))
   (fragment
-    (block
-      (return
-        (unset)))))
+    (try
+      (identifier)
+      (identifier))))
