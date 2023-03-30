@@ -41,7 +41,7 @@ module.exports = grammar({
 		    optional($.parameter_list),
 		    $._terminator,
 		    optional($.documentation),
-		    repeat($._statement),
+		    optional($._codeblock),
 		    "_endmethod"
 		)
 	    ),
@@ -53,7 +53,7 @@ module.exports = grammar({
 	    seq("_proc",
 		optional(field("name", seq("@", $._identifier))),
 		$.parameter_list,
-		repeat($._statement),
+		optional($._codeblock),
 		"_endproc"
 	    ),
 
@@ -76,7 +76,7 @@ module.exports = grammar({
 	// _endblock
 	block: $ =>
 	    prec.left(
-		seq("_block", repeat($._statement), "_endblock")
+		seq("_block", optional($._codeblock), "_endblock")
 	    ),
 
 	assignment: $ =>
@@ -90,20 +90,20 @@ module.exports = grammar({
 	    seq("_if",
 		field("condition", $._expression),
 		"_then",
-		repeat($._statement),
+		optional($._codeblock),
 		repeat($.elif),
 		optional($.else),
 		"_endif"
 	    ),
 
-	elif: $ => seq("_elif", field("condition", $._expression), "_then", repeat($._statement)),
+	elif: $ => seq("_elif", field("condition", $._expression), "_then", optional($._codeblock)),
 
-	else: $ => seq("_else", repeat($._statement)),
+	else: $ => seq("_else", optional($._codeblock)),
 
 	loop: $ =>
 	    seq(
 		"_loop",
-		repeat($._statement),
+		optional($._codeblock),
 		"_endloop"
 	    ),
 
@@ -117,7 +117,7 @@ module.exports = grammar({
 	// _catch <expression>
 	//  <block body>
 	// _endcatch
-	catch: $ => seq("_catch", $._expression, $._terminator, repeat($._statement), "_endcatch"),
+	catch: $ => seq("_catch", $._expression, $._terminator, optional($._codeblock), "_endcatch"),
 
 	// _throw <expression> [ _with <rvalue tuple> ]
 	throw: $ => seq("_throw", $._expression, optional(seq("_with", $._expression))),
@@ -139,10 +139,10 @@ module.exports = grammar({
 	    seq(
 		"_try",
 		optional(seq("_with", field("condition", $._identifier))),
-		repeat($._statement),
+		optional($._codeblock),
 		repeat(seq("_when",
 		    field("raised_condition", $._identifier), repeat(seq(",", field("raised_condition", $._identifier))),
-		    repeat($._statement))),
+		    optional($._codeblock))),
 		"_endtry"
 	    ),
 
@@ -182,9 +182,9 @@ module.exports = grammar({
 	    seq(
 		"_protect",
 		optional(seq("_locking", $._expression, $._terminator)),
-		repeat($._statement),
+		optional($._codeblock),
 		"_protection",
-		repeat($._statement),
+		optional($._codeblock),
 		"_endprotect"
 	    ),
 
@@ -269,6 +269,22 @@ module.exports = grammar({
 	    seq($._expression, $._terminator)
 	),
 
+	_codeblock: $ => repeat1(choice($._statement, $._defvar)),
+
+	_defvar: $ => choice(
+	    $.local,
+	    $.dynamic,
+	    $.dynamic_import,
+	    $.global),
+
+	global: $ => seq("_global", $.identifier, repeat(seq(",", $.identifier))),
+
+	local: $ => seq("_local", $.identifier, repeat(seq(",", $.identifier))),
+
+	dynamic: $ => seq("_dynamic", $.dynamic_variable, repeat(seq(",", $.identifier))),
+
+	dynamic_import: $ => seq("_dynamic", "_import", $.identifier, repeat(seq(",", $.identifier))),
+	
 	return: $ =>
 	    prec.left(
 		choice(
