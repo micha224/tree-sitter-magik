@@ -2,7 +2,7 @@
 dynamic variable usage
 ================================================================================
 
-_block 
+_block
   _dynamic !terminal!
 _endblock
 $
@@ -19,31 +19,36 @@ $
 dynamic defined imported variable
 ================================================================================
 
-_block 
+_block
   _dynamic _import !terminal!
-_endblock 
+_endblock
 $
 
 --------------------------------------------------------------------------------
 
 (source_file
   (fragment
-    (dynamic_variable_type (import_variable)) (dynamic_variable)))
+    (block
+      (dynamic_import
+        (dynamic_variable)))))
 
 ================================================================================
 global defined variable
 ================================================================================
 
-_block 
+_block
   _global sw:gis_program_manager
-_endblock 
+_endblock
 $
 
 --------------------------------------------------------------------------------
 
 (source_file
   (fragment
-    (global_variable_type) (global_variable)))
+    (block
+      (global
+        (identifier))
+      (symbol))))
 
 ================================================================================
 local defined variable
@@ -58,7 +63,9 @@ $
 
 (source_file
   (fragment
-    (local_variable_type) (variable)))
+    (block
+      (local
+        (identifier)))))
 
 ================================================================================
 constant variable type
@@ -73,7 +80,9 @@ $
 
 (source_file
   (fragment
-    (constant_variable_type) (variable)))
+    (block
+      (constant
+        (identifier)))))
 
 ================================================================================
 constant variable defined locally
@@ -88,7 +97,10 @@ $
 
 (source_file
   (fragment
-    (constant_variable_type (local_variable_type)) (variable)))
+    (block
+      (constant
+        (local
+          (identifier))))))
 
 ================================================================================
 imported variable

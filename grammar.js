@@ -273,8 +273,8 @@ module.exports = grammar({
 
 	_defvar: $ => choice(
 	    $.local,
-	    $.dynamic,
 	    $.dynamic_import,
+	    $.dynamic,
 	    $.global),
 
 	global: $ => seq("_global", $.identifier, repeat(seq(",", $.identifier))),
@@ -284,7 +284,7 @@ module.exports = grammar({
 	dynamic: $ => seq("_dynamic", $.dynamic_variable, repeat(seq(",", $.identifier))),
 
 	dynamic_import: $ => seq("_dynamic", "_import", $.identifier, repeat(seq(",", $.identifier))),
-	
+
 	return: $ =>
 	    prec.left(
 		choice(
