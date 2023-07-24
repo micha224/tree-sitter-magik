@@ -206,6 +206,17 @@ module.exports = grammar({
 		"_endprotect"
 	    ),
 
+	// _lock <expression>
+	//   <block body>
+	// _endlock
+	lock: $ =>
+	    seq(
+		"_lock",
+		seq($._expression, $._terminator),
+		optional($._codeblock),
+		"_endlock"
+	    ),
+
 	// _pragma (classify_level=<level>, topic={<set of topics>}, [ usage={<set of usages>} ] )
 	pragma: $ => seq("_pragma(", /.*/, ")"),
 
@@ -346,6 +357,7 @@ module.exports = grammar({
 		$.try,
 		$.loopbody,
 		$.protect,
+		$.lock,
 		$.assignment,
 		$.logical_operator,
 		$.relational_operator,
