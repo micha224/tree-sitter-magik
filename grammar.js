@@ -86,6 +86,16 @@ module.exports = grammar({
 		    $._expression)
 	    ),
 
+	// _if <condition1>
+	// _then
+	//  <block body>
+	// [ _elif <condition2>
+	//   _then
+	//     <block body> ]
+	//     ...
+	// [ _else
+	//   <block body> ]
+	// _endif
 	if: $ =>
 	    seq("_if",
 		field("condition", $._expression),
@@ -100,6 +110,9 @@ module.exports = grammar({
 
 	else: $ => seq("_else", optional($._codeblock)),
 
+	// _loop [ @ <identifier> ]
+	//  <block body>
+	// _endloop
 	loop: $ =>
 	    seq(
 		"_loop",
@@ -135,6 +148,11 @@ module.exports = grammar({
 		$.loop
 	    ),
 
+	// _try [ _with <name list> ]
+	//   <block body 0>
+	// _when <name list1>
+	//   <block body 1>
+	// _endtry
 	try: $ =>
 	    seq(
 		"_try",
@@ -188,6 +206,7 @@ module.exports = grammar({
 		"_endprotect"
 	    ),
 
+	// _pragma (classify_level=<level>, topic={<set of topics>}, [ usage={<set of usages>} ] )
 	pragma: $ => seq("_pragma(", /.*/, ")"),
 
 	_literal: $ =>
