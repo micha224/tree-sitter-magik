@@ -220,6 +220,7 @@ module.exports = grammar({
 		$.unset,
 		$.super,
 		$.self,
+		$.clone,
 		$.symbol,
 		$.vector
 	    ),
@@ -267,6 +268,7 @@ module.exports = grammar({
 	unset: $ => "_unset",
 	super: $ => "_super",
 	self: $ => "_self",
+	clone: $ => "_clone",
 
 	_terminator: $ =>
 	    choice(";", "\n"),

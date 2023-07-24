@@ -25,6 +25,7 @@
 [
  (self)
  (super)
+ (clone)
 ] @variable.builtin
 
 [

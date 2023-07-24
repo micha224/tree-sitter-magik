@@ -7,6 +7,8 @@ object.method()
 object.method<< _unset
 object.method1.method2
 _self.new()
+_super.new()
+_clone.init()
 $
 
 --------------------------------------------------------------------------------
@@ -34,4 +36,12 @@ $
   (fragment
     (call
       (self)
+      (identifier)))
+  (fragment
+    (call
+      (super)
+      (identifier)))
+  (fragment
+    (call
+      (clone)
       (identifier))))
