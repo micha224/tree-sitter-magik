@@ -238,8 +238,8 @@ module.exports = grammar({
 
 	string_literal: $ =>
 	    choice(
-		seq('"', repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), '"'),
-		seq("'", repeat(choice(/[^\\"\n]/, /\\(.|\n)/)), "'")
+		seq('"', repeat(choice(/[^"\n]/, /\\(.|\n)/)), '"'),
+		seq("'", repeat(choice(/[^'\n]/, /\\(.|\n)/)), "'")
 	    ),
 
 	call: $ =>
@@ -305,17 +305,26 @@ module.exports = grammar({
 
 	_defvar: $ => choice(
 	    $.local,
+	    $.constant,
 	    $.dynamic_import,
 	    $.dynamic,
-	    $.global),
+	    $.global,
+	    $.import),
 
 	global: $ => seq("_global", $.identifier, repeat(seq(",", $.identifier))),
 
 	local: $ => seq("_local", $.identifier, repeat(seq(",", $.identifier))),
 
+	constant: $ => seq("_constant",
+	    choice(
+		$.local,
+		seq($.identifier, repeat(seq(",", $.identifier))))),
+
 	dynamic: $ => seq("_dynamic", $.dynamic_variable, repeat(seq(",", $.identifier))),
 
-	dynamic_import: $ => seq("_dynamic", "_import", $.identifier, repeat(seq(",", $.identifier))),
+	import: $ => seq("_import", repeat(seq(",", $.identifier))),
+	
+	dynamic_import: $ => seq("_dynamic", "_import", $.dynamic_variable, repeat(seq(",", $.dynamic_variable))),
 
 	return: $ =>
 	    prec.left(
