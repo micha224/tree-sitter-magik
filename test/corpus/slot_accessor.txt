@@ -8,6 +8,9 @@ $
 .slot<< _unset
 $
 
+old_slot_value << .slot ^<< _unset
+$
+
 .slot.invoke()
 $
 
@@ -19,6 +22,12 @@ $
   (fragment
     (assignment
       (slot_accessor)
+      (unset)))
+  (fragment
+    (assignment
+      (assignment
+        (variable)
+        (slot_accessor))
       (unset)))
   (fragment
     (call
