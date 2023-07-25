@@ -344,9 +344,9 @@ module.exports = grammar({
 
 	gather: $ => seq("_gather", $._expression),
 	scatter: $ => seq("_scatter", $._expression),
-	allresults: $ => seq("_alresults", $._expression),
+	allresults: $ => seq("_allresults", $._expression),
 
-	parenthesized_expression: $ => seq('(', $._expression, ')'),
+	parenthesized_expression: $ => seq('(', $._expression_list, ')'),
 
 	_expression: $ =>
 	    choice(

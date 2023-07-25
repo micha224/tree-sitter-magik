@@ -8,7 +8,6 @@ _true _xor _false
 _true _andif _true
 _false _orif _true
 _false _xorif _true
-$
 
 --------------------------------------------------------------------------------
 
@@ -37,3 +36,23 @@ $
     (logical_operator
       (false)
       (true))))
+
+================================================================================
+parallel assignment
+================================================================================
+
+(a,b,c) << (1,2,3)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (fragment
+    (assignment
+      (parenthesized_expression
+        (variable)
+        (variable)
+        (variable))
+      (parenthesized_expression
+        (number)
+        (number)
+        (number)))))
