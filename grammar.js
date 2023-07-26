@@ -143,7 +143,7 @@ module.exports = grammar({
 	// _endloop
 	iterator: $ =>
 	    seq(
-		optional(seq("_for", $.identifier, repeat(seq(",", $.identifier)))),
+		optional(seq("_for", $._identifier_list)),
 		"_over", $._expression,
 		$.loop
 	    ),
@@ -218,7 +218,7 @@ module.exports = grammar({
 	    ),
 
 	// _pragma (classify_level=<level>, topic={<set of topics>}, [ usage={<set of usages>} ] )
-	pragma: $ => seq("_pragma(", /.*/, ")"),
+	pragma: $ => prec.left(seq("_pragma(", /.*/, ")")),
 
 	_literal: $ =>
 	    choice(
@@ -311,26 +311,26 @@ module.exports = grammar({
 	    $.global,
 	    $.import),
 
-	global: $ => seq("_global", $.identifier, repeat(seq(",", $.identifier))),
+	global: $ => seq("_global", $._identifier_list),
 
-	local: $ => seq("_local", $.identifier, repeat(seq(",", $.identifier))),
+	local: $ => seq("_local", $._identifier_list),
 
 	constant: $ => seq("_constant",
 	    choice(
 		$.local,
-		seq($.identifier, repeat(seq(",", $.identifier))))),
+		$._identifier_list)),
 
 	dynamic: $ => seq("_dynamic", $.dynamic_variable, repeat(seq(",", $.identifier))),
 
-	import: $ => seq("_import", repeat(seq(",", $.identifier))),
-	
+	import: $ => seq("_import", $._identifier_list),
+
 	dynamic_import: $ => seq("_dynamic", "_import", $.dynamic_variable, repeat(seq(",", $.dynamic_variable))),
 
 	return: $ =>
 	    prec.left(
 		choice(
-		    seq("_return", optional($._expression)),
-		    seq(">>", $._expression)
+		    seq("_return", optional($._expression_list)),
+		    seq(">>", $._expression_list)
 		)
 	    ),
 
@@ -399,6 +399,9 @@ module.exports = grammar({
 
 	_identifier: $ => prec(-2, /[a-z][a-z0-9_\?!]*/),
 
+	_identifier_list: $ =>
+	    prec.right(seq($.identifier, repeat(seq(",", $.identifier)))),
+
 	number: $ => /\d+/,
 
 	vector: $ => seq(
@@ -444,7 +447,7 @@ module.exports = grammar({
 
 	character_literal: $ => seq('%', choice($._identifier, /./)),
 
-	documentation: $ => repeat1(/##.*/),
-	comment: $ => prec.right(repeat1(/#.*/)),
+	documentation: $ => prec.right(repeat1(seq('##', /.*/))),
+	comment: $ => prec.right(repeat1(seq('#', /.*/))),
     },
 });

@@ -109,5 +109,5 @@ _endblock
 (source_file
   (fragment
     (block
-      (import)
-      (variable))))
+      (import
+        (identifier)))))
