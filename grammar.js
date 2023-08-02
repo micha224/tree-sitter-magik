@@ -17,8 +17,10 @@ module.exports = grammar({
 		    $.fragment)
 	    ),
 
+	_line_terminator: $ => seq(optional("\r"), "\n"),
+
 	fragment: $ =>
-	    prec.left(seq(repeat1($._top_level_statement), optional(seq("$\n")))),
+	    prec.left(seq(repeat1($._top_level_statement), optional(seq("$", $._line_terminator)))),
 
 	package: $ =>
 	    prec.left(seq("_package", $._identifier, repeat($.fragment))),
@@ -282,7 +284,7 @@ module.exports = grammar({
 	clone: $ => "_clone",
 
 	_terminator: $ =>
-	    choice(";", "\n"),
+	    choice(";", $._line_terminator),
 
 	_top_level_statement: $ => choice(
 	    $._definition,
