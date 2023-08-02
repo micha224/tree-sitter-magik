@@ -158,10 +158,10 @@ module.exports = grammar({
 	try: $ =>
 	    seq(
 		"_try",
-		optional(seq("_with", field("condition", $._identifier))),
+		optional(seq("_with", field("condition", $.identifier))),
 		optional($._codeblock),
 		repeat(seq("_when",
-		    field("raised_condition", $._identifier), repeat(seq(",", field("raised_condition", $._identifier))),
+		    field("raised_condition", $.identifier), repeat(seq(",", field("raised_condition", $.identifier))),
 		    optional($._codeblock))),
 		"_endtry"
 	    ),

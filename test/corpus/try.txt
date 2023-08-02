@@ -17,8 +17,8 @@ $
 (source_file
   (fragment
     (try
-      (identifier)))
+      raised_condition: (identifier)))
   (fragment
     (try
-      (identifier)
-      (identifier))))
+      condition: (identifier)
+      raised_condition: (identifier))))
