@@ -106,3 +106,29 @@ $
         (variable)
         (identifier))
       (finally))))
+
+================================================================================
+while
+================================================================================
+
+_while x <= 100
+_loop
+  y +<< x
+  x +<< 1
+_endloop
+$
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (fragment
+    (while
+      (relational_operator
+        (variable)
+        (number))
+      (assignment
+        (variable)
+        (variable))
+      (assignment
+        (variable)
+        (number)))))

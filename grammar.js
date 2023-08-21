@@ -162,6 +162,18 @@ module.exports = grammar({
 		    "_endloop")
 	    ),
 
+	// _while <condition>
+	// _loop [ @<identifier> ]
+	//  <block body>
+	// _endloop
+	while: $ =>
+	    seq("_while", field("condition", $._expression),
+		seq(
+		    "_loop",
+		    optional($._codeblock),
+		    "_endloop")
+	    ),
+
 	// _try [ _with <name list> ]
 	//   <block body 0>
 	// _when <name list1>
@@ -375,6 +387,7 @@ module.exports = grammar({
 		$.scatter,
 		$.allresults,
 		$.iterator,
+		$.while,
 		$.if,
 		$.loop,
 		$.try,
