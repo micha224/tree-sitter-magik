@@ -126,6 +126,10 @@ module.exports = grammar({
 		"_endloop"
 	    ),
 
+	// [ _finally [ _with <lvalue tuple> ]
+	//  <block body> ]
+	finally: $ => seq("_finally", optional(seq("_with", $._identifier_list)), optional($._codeblock)),
+
 	// _handling condition _with procedure
 	handling: $ =>
 	    seq("_handling", choice(
@@ -151,7 +155,11 @@ module.exports = grammar({
 	    seq(
 		optional(seq("_for", $._identifier_list)),
 		"_over", $._expression,
-		$.loop
+		seq(
+		    "_loop",
+		    optional($._codeblock),
+		    optional($.finally),
+		    "_endloop")
 	    ),
 
 	// _try [ _with <name list> ]

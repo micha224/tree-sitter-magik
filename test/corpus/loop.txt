@@ -54,15 +54,13 @@ $
     (iterator
       (call
         (variable)
-        (identifier))
-      (loop)))
+        (identifier))))
   (fragment
     (iterator
       (identifier)
       (call
         (variable)
-        (identifier))
-      (loop))))
+        (identifier)))))
 
 ================================================================================
 leave continue
@@ -87,3 +85,24 @@ $
   (fragment
     (loop
       (continue))))
+
+================================================================================
+iterator with finally
+================================================================================
+
+_for e _over simple_vector.fast_elements()
+_loop
+_finally
+_endloop
+$
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (fragment
+    (iterator
+      (identifier)
+      (call
+        (variable)
+        (identifier))
+      (finally))))
