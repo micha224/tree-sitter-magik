@@ -25,6 +25,11 @@ module.exports = grammar({
 	package: $ =>
 	    prec.left(seq("_package", $._identifier, repeat($.fragment))),
 
+	_method_declaration: $ =>
+	    seq(
+		optional($.pragma),
+		$.method
+	    ),
 
 	// [_private] _method <receiver>.<message_name> [( <arguments> )]
 	//  <block body>
@@ -32,7 +37,6 @@ module.exports = grammar({
 	method: $ =>
 	    prec.left(
 		seq(
-		    optional($.pragma),
 		    optional("_abstract"),
 		    optional("_private"),
 		    optional("_iter"),
@@ -288,7 +292,7 @@ module.exports = grammar({
 
 	_top_level_statement: $ => choice(
 	    $._definition,
-	    $.method,
+	    $._method_declaration,
 	    $._statement
 	),
 
