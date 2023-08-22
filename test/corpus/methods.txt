@@ -149,3 +149,66 @@ $
         (parameter)
         (parameter)
         (parameter)))))
+
+================================================================================
+methods with pragma
+================================================================================
+
+_pragma(classify_level=basic)
+_method my_object.method_with_pragma()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic=treesitter)
+_method my_object.other_method_with_pragma()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={treesitter, magik})
+_method my_object.yet_other_method_with_pragma()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic={treesitter}, usage=subclassable)
+_method my_object.almost_last_method_with_pragma()
+_endmethod
+$
+
+_pragma(classify_level=basic, topic=treesitter, usage={redefinable, subclassable})
+_method my_object.last_method_with_pragma()
+_endmethod
+$
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (fragment
+    (pragma)
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list)))
+  (fragment
+    (pragma)
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list)))
+  (fragment
+    (pragma)
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list)))
+  (fragment
+    (pragma)
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list)))
+  (fragment
+    (pragma)
+    (method
+      (identifier)
+      (identifier)
+      (parameter_list))))
