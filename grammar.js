@@ -57,7 +57,7 @@ module.exports = grammar({
 	// _endproc
 	procedure: $ =>
 	    seq("_proc",
-		optional(field("name", seq("@", $._identifier))),
+		optional($.label),
 		$.parameter_list,
 		optional($._codeblock),
 		"_endproc"
@@ -82,7 +82,7 @@ module.exports = grammar({
 	// _endblock
 	block: $ =>
 	    prec.left(
-		seq("_block", optional($._codeblock), "_endblock")
+		seq("_block", optional($.label), optional($._codeblock), "_endblock")
 	    ),
 
 	assignment: $ =>
@@ -122,6 +122,7 @@ module.exports = grammar({
 	loop: $ =>
 	    seq(
 		"_loop",
+		optional($.label),
 		optional($._codeblock),
 		"_endloop"
 	    ),
@@ -160,6 +161,7 @@ module.exports = grammar({
 		"_over", $._expression,
 		seq(
 		    "_loop",
+		    optional($.label),
 		    optional($._codeblock),
 		    optional($.finally),
 		    "_endloop")
@@ -173,6 +175,7 @@ module.exports = grammar({
 	    seq("_while", field("condition", $._expression),
 		seq(
 		    "_loop",
+		    optional($.label),
 		    optional($._codeblock),
 		    "_endloop")
 	    ),
@@ -204,7 +207,7 @@ module.exports = grammar({
 	leave: $ =>
 	    seq(
 		"_leave",
-		optional(seq("@", $._identifier)),
+		optional($.label),
 		optional(seq("_with", choice(
 		    seq("(", seq($._expression, repeat1(seq(",", $._expression))), ")"),
 		    $._expression)))
@@ -214,7 +217,7 @@ module.exports = grammar({
 	continue: $ =>
 	    seq(
 		"_continue",
-		optional(seq("@", $._identifier)),
+		optional($.label),
 		optional(seq("_with", choice(
 		    seq("(", seq($._expression, repeat1(seq(",", $._expression))), ")"),
 		    $._expression)))
@@ -417,6 +420,10 @@ module.exports = grammar({
 		$.global_reference,
 		$.variable
 	    ),
+
+	// @ <identifier>
+	label: $ =>
+	    /@[a-z_]*/,
 
 	variable: $ => prec.left($._identifier),
 
