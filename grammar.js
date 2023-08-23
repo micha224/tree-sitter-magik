@@ -320,6 +320,8 @@ module.exports = grammar({
 
 	thisthread: $ => "_thisthread",
 
+	class: $ => seq("_class", field("java_classname", seq(/\|[a-zA-Z\d\.]*\|/))),
+
 	_terminator: $ =>
 	    choice(";", $._line_terminator),
 
@@ -408,6 +410,7 @@ module.exports = grammar({
 		$.protect,
 		$.lock,
 		$.thisthread,
+		$.class,
 		$.assignment,
 		$.logical_operator,
 		$.relational_operator,
