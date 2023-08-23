@@ -310,6 +310,8 @@ module.exports = grammar({
 	self: $ => "_self",
 	clone: $ => "_clone",
 
+	thisthread: $ => "_thisthread",
+
 	_terminator: $ =>
 	    choice(";", $._line_terminator),
 
@@ -398,6 +400,7 @@ module.exports = grammar({
 		$.loopbody,
 		$.protect,
 		$.lock,
+		$.thisthread,
 		$.assignment,
 		$.logical_operator,
 		$.relational_operator,
