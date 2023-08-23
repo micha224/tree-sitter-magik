@@ -145,6 +145,9 @@ module.exports = grammar({
 	// _throw <expression> [ _with <rvalue tuple> ]
 	throw: $ => seq("_throw", $._expression, optional(seq("_with", $._expression))),
 
+	// _primitive <number>
+	primitive: $ => seq("_primitive", $.number),
+
 	// [ _for <lvalue tuple> ] _over <iter invocation>
 	// _loop [ @<identifier> ]
 	//  <block body>
@@ -324,6 +327,7 @@ module.exports = grammar({
 	    $.continue,
 	    $.catch,
 	    $.throw,
+	    $.primitive,
 	    seq($._expression, $._terminator)
 	),
 
