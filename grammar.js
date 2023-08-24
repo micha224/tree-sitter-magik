@@ -9,6 +9,11 @@ const PREC = {
 module.exports = grammar({
     name: "magik",
 
+    extras: $ => [
+	$.comment,
+	/\s/
+    ],
+
     rules: {
 	source_file: $ =>
 	    repeat(
@@ -325,7 +330,6 @@ module.exports = grammar({
 	),
 
 	_statement: $ => choice(
-	    $.comment,
 	    $.handling,
 	    $.return,
 	    $.leave,
@@ -488,7 +492,7 @@ module.exports = grammar({
 
 	character_literal: $ => seq('%', choice($._identifier, /./)),
 
-	documentation: $ => prec.right(repeat1(seq('##', /.*/))),
-	comment: $ => prec.right(repeat1(seq('#', /.*/))),
+	documentation: $ => prec.right(repeat1(/##.*/)),
+	comment: $ => token(/#.*/)
     },
 });
