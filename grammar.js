@@ -255,7 +255,7 @@ module.exports = grammar({
 	    ),
 
 	// _pragma (classify_level=<level>, topic={<set of topics>}, [ usage={<set of usages>} ] )
-	pragma: $ => prec.left(seq("_pragma(", /.*/, ")")),
+	pragma: $ => prec.left(seq("_pragma", /(.*)/)),
 
 	_literal: $ =>
 	    choice(
