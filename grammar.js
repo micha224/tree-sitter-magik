@@ -480,7 +480,7 @@ module.exports = grammar({
 	    prec.left(PREC.ARITHMETIC,
 		seq(
 		    field("left", $._expression),
-		    field("operator", choice("**", "*", "_mod", "_div", "-", "+")),
+		    field("operator", choice("**", "*", "/", "_mod", "_div", "-", "+")),
 		    field("right", $._expression)
 		)
 	    ),
