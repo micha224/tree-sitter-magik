@@ -1,4 +1,5 @@
 const PREC = {
+    COMMENT: -2,
     ASSIGN: 15,
     BOOLEAN: 35,
     RELATIONAL: 40,
@@ -496,6 +497,6 @@ module.exports = grammar({
 	character_literal: $ => seq('%', choice($._identifier, /./)),
 
 	documentation: $ => prec.right(repeat1(/##.*/)),
-	comment: $ => token(/#.*/)
+	comment: $ => token(prec(PREC.COMMENT, /#.*/))
     },
 });

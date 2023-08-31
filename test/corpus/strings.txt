@@ -9,10 +9,13 @@ strings
 '"'
 "multi
 line"
+"#not a comment"
 
 --------------------------------------------------------------------------------
 
 (source_file
+  (fragment
+    (string_literal))
   (fragment
     (string_literal))
   (fragment
