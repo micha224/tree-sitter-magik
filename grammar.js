@@ -1,4 +1,5 @@
 const PREC = {
+    COMMENT: -2,
     ASSIGN: 15,
     BOOLEAN: 35,
     RELATIONAL: 40,
@@ -8,6 +9,11 @@ const PREC = {
 
 module.exports = grammar({
     name: "magik",
+
+    extras: $ => [
+	$.comment,
+	/\s/
+    ],
 
     rules: {
 	source_file: $ =>
@@ -25,6 +31,11 @@ module.exports = grammar({
 	package: $ =>
 	    prec.left(seq("_package", $._identifier, repeat($.fragment))),
 
+	_method_declaration: $ =>
+	    seq(
+		optional($.pragma),
+		$.method
+	    ),
 
 	// [_private] _method <receiver>.<message_name> [( <arguments> )]
 	//  <block body>
@@ -32,7 +43,6 @@ module.exports = grammar({
 	method: $ =>
 	    prec.left(
 		seq(
-		    optional($.pragma),
 		    optional("_abstract"),
 		    optional("_private"),
 		    optional("_iter"),
@@ -53,7 +63,7 @@ module.exports = grammar({
 	// _endproc
 	procedure: $ =>
 	    seq("_proc",
-		optional(field("name", seq("@", $._identifier))),
+		optional($.label),
 		$.parameter_list,
 		optional($._codeblock),
 		"_endproc"
@@ -78,7 +88,7 @@ module.exports = grammar({
 	// _endblock
 	block: $ =>
 	    prec.left(
-		seq("_block", optional($._codeblock), "_endblock")
+		seq("_block", optional($.label), optional($._codeblock), "_endblock")
 	    ),
 
 	assignment: $ =>
@@ -118,9 +128,14 @@ module.exports = grammar({
 	loop: $ =>
 	    seq(
 		"_loop",
+		optional($.label),
 		optional($._codeblock),
 		"_endloop"
 	    ),
+
+	// [ _finally [ _with <lvalue tuple> ]
+	//  <block body> ]
+	finally: $ => seq("_finally", optional(seq("_with", $._identifier_list)), optional($._codeblock)),
 
 	// _handling condition _with procedure
 	handling: $ =>
@@ -137,6 +152,9 @@ module.exports = grammar({
 	// _throw <expression> [ _with <rvalue tuple> ]
 	throw: $ => seq("_throw", $._expression, optional(seq("_with", $._expression))),
 
+	// _primitive <number>
+	primitive: $ => seq("_primitive", $.number),
+
 	// [ _for <lvalue tuple> ] _over <iter invocation>
 	// _loop [ @<identifier> ]
 	//  <block body>
@@ -147,7 +165,25 @@ module.exports = grammar({
 	    seq(
 		optional(seq("_for", $._identifier_list)),
 		"_over", $._expression,
-		$.loop
+		seq(
+		    "_loop",
+		    optional($.label),
+		    optional($._codeblock),
+		    optional($.finally),
+		    "_endloop")
+	    ),
+
+	// _while <condition>
+	// _loop [ @<identifier> ]
+	//  <block body>
+	// _endloop
+	while: $ =>
+	    seq("_while", field("condition", $._expression),
+		seq(
+		    "_loop",
+		    optional($.label),
+		    optional($._codeblock),
+		    "_endloop")
 	    ),
 
 	// _try [ _with <name list> ]
@@ -177,7 +213,7 @@ module.exports = grammar({
 	leave: $ =>
 	    seq(
 		"_leave",
-		optional(seq("@", $._identifier)),
+		optional($.label),
 		optional(seq("_with", choice(
 		    seq("(", seq($._expression, repeat1(seq(",", $._expression))), ")"),
 		    $._expression)))
@@ -187,7 +223,7 @@ module.exports = grammar({
 	continue: $ =>
 	    seq(
 		"_continue",
-		optional(seq("@", $._identifier)),
+		optional($.label),
 		optional(seq("_with", choice(
 		    seq("(", seq($._expression, repeat1(seq(",", $._expression))), ")"),
 		    $._expression)))
@@ -220,7 +256,7 @@ module.exports = grammar({
 	    ),
 
 	// _pragma (classify_level=<level>, topic={<set of topics>}, [ usage={<set of usages>} ] )
-	pragma: $ => prec.left(seq("_pragma(", /.*/, ")")),
+	pragma: $ => prec.left(seq("_pragma", /(.*)/)),
 
 	_literal: $ =>
 	    choice(
@@ -283,23 +319,27 @@ module.exports = grammar({
 	self: $ => "_self",
 	clone: $ => "_clone",
 
+	thisthread: $ => "_thisthread",
+
+	class: $ => seq("_class", field("java_classname", seq(/\|[a-zA-Z\d\.]*\|/))),
+
 	_terminator: $ =>
 	    choice(";", $._line_terminator),
 
 	_top_level_statement: $ => choice(
 	    $._definition,
-	    $.method,
+	    $._method_declaration,
 	    $._statement
 	),
 
 	_statement: $ => choice(
-	    $.comment,
 	    $.handling,
 	    $.return,
 	    $.leave,
 	    $.continue,
 	    $.catch,
 	    $.throw,
+	    $.primitive,
 	    seq($._expression, $._terminator)
 	),
 
@@ -363,12 +403,15 @@ module.exports = grammar({
 		$.scatter,
 		$.allresults,
 		$.iterator,
+		$.while,
 		$.if,
 		$.loop,
 		$.try,
 		$.loopbody,
 		$.protect,
 		$.lock,
+		$.thisthread,
+		$.class,
 		$.assignment,
 		$.logical_operator,
 		$.relational_operator,
@@ -385,6 +428,10 @@ module.exports = grammar({
 		$.global_reference,
 		$.variable
 	    ),
+
+	// @ <identifier>
+	label: $ =>
+	    /@[a-z_]*/,
 
 	variable: $ => prec.left($._identifier),
 
@@ -434,7 +481,7 @@ module.exports = grammar({
 	    prec.left(PREC.ARITHMETIC,
 		seq(
 		    field("left", $._expression),
-		    field("operator", choice("**", "*", "_mod", "_div", "-", "+")),
+		    field("operator", choice("**", "*", "/", "_mod", "_div", "-", "+")),
 		    field("right", $._expression)
 		)
 	    ),
@@ -449,7 +496,7 @@ module.exports = grammar({
 
 	character_literal: $ => seq('%', choice($._identifier, /./)),
 
-	documentation: $ => prec.right(repeat1(seq('##', /.*/))),
-	comment: $ => prec.right(repeat1(seq('#', /.*/))),
+	documentation: $ => prec.right(repeat1(/##.*/)),
+	comment: $ => token(prec(PREC.COMMENT, /#.*/))
     },
 });

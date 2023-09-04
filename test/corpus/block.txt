@@ -9,6 +9,10 @@ _endblock
 _block
   >> _unset
 _endblock
+
+_block@label
+  _return
+_endblock
 $
 
 --------------------------------------------------------------------------------
@@ -20,4 +24,8 @@ $
   (fragment
     (block
       (return
-        (unset)))))
+        (unset))))
+  (fragment
+    (block
+      (label)
+      (return))))

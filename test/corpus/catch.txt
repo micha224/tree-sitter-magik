@@ -1,30 +1,28 @@
 ================================================================================
-strings
+catch
 ================================================================================
 
-"string"
-'string'
-"%"
-"'"
-'"'
-"multi
-line"
-"#not a comment"
+_catch :error
+_endcatch
+$
+
+_catch @error
+_endcatch
+$
+
+_catch "error"
+_endcatch
+$
 
 --------------------------------------------------------------------------------
 
 (source_file
   (fragment
-    (string_literal))
+    (catch
+      (symbol)))
   (fragment
-    (string_literal))
+    (catch
+      (global_reference)))
   (fragment
-    (string_literal))
-  (fragment
-    (string_literal))
-  (fragment
-    (string_literal))
-  (fragment
-    (string_literal))
-  (fragment
-    (string_literal)))
+    (catch
+      (string_literal))))

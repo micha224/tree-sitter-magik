@@ -1,28 +1,21 @@
 ================================================================================
-comments
+thisthread
 ================================================================================
 
-# Single line 'comment'
+_thisthread.sleep(10)
 
-# Multi
-# Line
-# Comment
-
-_block
- 1 _and # comment
- 2
-_endblock
+_thisthread.background_priority
+$
 
 --------------------------------------------------------------------------------
 
 (source_file
-  (comment)
-  (comment)
-  (comment)
-  (comment)
   (fragment
-    (block
-      (logical_operator
-        (number)
-        (comment)
-        (number)))))
+    (call
+      (thisthread)
+      (identifier)
+      (number)))
+  (fragment
+    (call
+      (thisthread)
+      (identifier))))

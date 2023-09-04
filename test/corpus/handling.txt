@@ -1,30 +1,27 @@
 ================================================================================
-strings
+handling
 ================================================================================
 
-"string"
-'string'
-"%"
-"'"
-'"'
-"multi
-line"
-"#not a comment"
+_handling error _with _proc() _endproc()
+$
+
+_handling error _with _default
+$
+
+_handling _default
+$
 
 --------------------------------------------------------------------------------
 
 (source_file
   (fragment
-    (string_literal))
+    (handling
+      condition: (variable)
+      (invoke
+        receiver: (procedure
+                    (parameter_list)))))
   (fragment
-    (string_literal))
+    (handling
+      condition: (variable)))
   (fragment
-    (string_literal))
-  (fragment
-    (string_literal))
-  (fragment
-    (string_literal))
-  (fragment
-    (string_literal))
-  (fragment
-    (string_literal)))
+    (handling)))
